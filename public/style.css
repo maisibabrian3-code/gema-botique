@@ -229,36 +229,38 @@ footer span {
 /* Category Filter Bar */
 .category-nav {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 15px 20px;
-    background-color: #181818;
-    border-bottom: 1px solid #333;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background-color: #0A1128;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
     overflow-x: auto;
     white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.category-nav::-webkit-scrollbar {
+    display: none;
 }
 
 .filter-btn {
-    background-color: var(--card-bg);
-    color: var(--text-muted);
-    border: 1px solid #333;
+    flex-shrink: 0; /* Prevents buttons from shrinking or compressing on narrow screens */
     padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
+    font-size: 0.85rem;
     font-weight: 600;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #A0AEC0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
+.filter-btn.active,
 .filter-btn:hover {
-    color: var(--text-main);
-    border-color: var(--accent-gold);
-}
-
-.filter-btn.active {
-    background-color: var(--accent-gold);
-    color: #000;
-    border-color: var(--accent-gold);
+    background: #D4AF37;
+    color: #0A1128;
+    border-color: #D4AF37;
 }
 /* Header Search Bar Styling with Integrated Search Icon */
 .header-search {
