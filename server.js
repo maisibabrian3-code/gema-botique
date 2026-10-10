@@ -1,17 +1,37 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://admin:YOUR_PASSWORD@cluster0.xxxx.mongodb.net/gema-boutique?retryWrites=true&w=majority";
+
+// Connect to MongoDB Atlas
+mongoose.connect(MONGO_URI)
+    .then(() => console.log('Connected to MongoDB Atlas successfully!'))
+    .catch(err => console.error('MongoDB Connection Error:', err));
+
+// Define Mongoose Product Schema & Model
+const productSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    price: { type: String, required: true },
+    numericPrice: Number,
+    quantity: { type: Number, default: 1 },
+    category: { type: String, required: true },
+    spec: String,
+    stockStatus: { type: String, default: 'In Stock' },
+    active: { type: Boolean, default: true },
+    imageUrl: { type: String, required: true },
+    tag: { type: String, default: 'Standard' }
+}, { timestamps: true });
+
+const Product = mongoose.model('Product', productSchema);
 
 function parseNumericPrice(priceStr) {
     if (!priceStr) return 0;
     const digits = priceStr.toString().replace(/[^0-9]/g, '');
     return parseInt(digits, 10) || 0;
 }
-
-// Starts completely clean with zero items
-let products = [];
 
 let activeSessions = {};
 
@@ -95,8 +115,15 @@ const server = http.createServer((req, res) => {
     }
 
     if (urlParts === '/api/products' && req.method === 'GET') {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(products));
+        Product.find({}).sort({ createdAt: -1 })
+            .then(products => {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(products));
+            })
+            .catch(err => {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Failed to fetch inventory' }));
+            });
         return;
     }
 
@@ -109,7 +136,7 @@ const server = http.createServer((req, res) => {
 
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
-        req.on('end', () => {
+        req.on('end', async () => {
             try {
                 const data = JSON.parse(body);
                 const rawPrice = data.price || '0';
@@ -117,8 +144,7 @@ const server = http.createServer((req, res) => {
                 const numPrice = parseNumericPrice(rawPrice);
                 const qty = parseInt(data.quantity, 10) || 1;
 
-                const newProduct = {
-                    id: Date.now().toString(),
+                const newProduct = new Product({
                     title: data.title,
                     price: formattedPrice,
                     numericPrice: numPrice,
@@ -129,9 +155,9 @@ const server = http.createServer((req, res) => {
                     active: qty > 0,
                     imageUrl: data.imageUrl,
                     tag: data.tag || 'Standard'
-                };
+                });
 
-                products.unshift(newProduct);
+                await newProduct.save();
                 res.writeHead(201, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true, message: 'Product published successfully!' }));
             } catch (err) {
@@ -152,23 +178,25 @@ const server = http.createServer((req, res) => {
         const id = urlParts.split('/')[3];
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
-        req.on('end', () => {
+        req.on('end', async () => {
             try {
-                const index = products.findIndex(p => p.id === id);
-                if (index !== -1) {
-                    const updates = JSON.parse(body);
-                    products[index] = { ...products[index], ...updates };
-                    
-                    if (products[index].quantity <= 0 || !products[index].active) {
-                        products[index].stockStatus = 'Out of Stock';
-                        products[index].active = false;
+                const updates = JSON.parse(body);
+                if (updates.quantity !== undefined) {
+                    const qty = parseInt(updates.quantity, 10);
+                    updates.quantity = qty;
+                    if (qty <= 0 || updates.active === false) {
+                        updates.stockStatus = 'Out of Stock';
+                        updates.active = false;
                     } else {
-                        products[index].stockStatus = 'In Stock';
-                        products[index].active = true;
+                        updates.stockStatus = 'In Stock';
+                        updates.active = true;
                     }
+                }
 
+                const updatedProduct = await Product.findByIdAndUpdate(id, updates, { new: true });
+                if (updatedProduct) {
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true, product: products[index] }));
+                    res.end(JSON.stringify({ success: true, product: updatedProduct }));
                 } else {
                     res.writeHead(404, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Product not found' }));
@@ -189,9 +217,20 @@ const server = http.createServer((req, res) => {
         }
 
         const id = urlParts.split('/')[3];
-        products = products.filter(p => p.id !== id);
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true, message: 'Item deleted permanently' }));
+        Product.findByIdAndDelete(id)
+            .then(deleted => {
+                if (deleted) {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: true, message: 'Item deleted permanently' }));
+                } else {
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Product not found' }));
+                }
+            })
+            .catch(err => {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Failed to delete product' }));
+            });
         return;
     }
 
