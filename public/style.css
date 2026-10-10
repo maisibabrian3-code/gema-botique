@@ -36,7 +36,7 @@ header {
 .brand-wrapper {
     display: flex;
     align-items: center;
-    gap: 12px; /* Adds space between the logo and the text */
+    gap: 12px;
 }
 
 .site-logo {
@@ -44,10 +44,10 @@ header {
     width: 85px;
     object-fit: contain;
     border-radius: 50%;
-    border:2px solid var(--accent-gold);
+    border: 2px solid var(--accent-gold);
     background-color: var(--card-bg);
     padding: 4px;
-    box-shadow:0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .logo-text-group {
@@ -62,7 +62,7 @@ header {
     color: var(--accent-gold);
     text-transform: uppercase;
     line-height: 1.1;
-    font-family: 'Cinzel', 'playfair Display', Georgia, serif;
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
 }
 
 .logo-subtitle {
@@ -80,6 +80,135 @@ header {
     border-radius: 20px;
     font-weight: 600;
     font-size: 13px;
+}
+
+/* Header Search Bar Styling */
+.header-search {
+    flex: 1;
+    max-width: 320px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-search-row .header-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header-search input {
+    width: 100%;
+    padding: 8px 40px 8px 16px;
+    background-color: #121212;
+    border: 1px solid #333;
+    border-radius: 20px;
+    color: var(--text-main);
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.header-search input::placeholder {
+    color: var(--text-muted);
+}
+
+.header-search input:focus {
+    border-color: var(--accent-gold);
+    background-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.search-submit-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.search-submit-btn:hover {
+    color: var(--accent-gold);
+}
+
+.header-action-btn {
+    background-color: var(--card-bg);
+    color: var(--text-muted);
+    border: 1px solid #333;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.header-action-btn:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    background-color: #1a1a1a;
+}
+
+/* Category Filter Bar (Jumia / Kilimall Compact Style) */
+.category-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: #0A1128;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+}
+
+.category-nav::-webkit-scrollbar {
+    display: none;
+}
+
+/* Compact pill button sizes so all tabs fit cleanly */
+.filter-btn {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #A0AEC0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #D4AF37;
+    color: #0A1128;
+    border-color: #D4AF37;
+}
+
+/* Mobile Responsiveness for Small Phone Displays */
+@media (max-width: 768px) {
+    .category-nav {
+        justify-content: flex-start; /* Crucial: stops 'All Items' and 'Handbags' from getting cut off */
+        padding-left: 12px;
+        padding-right: 16px;
+    }
 }
 
 /* Hero Section */
@@ -132,7 +261,7 @@ header {
     .product-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         gap: 15px;
-        padding:20px 0;
+        padding: 20px 0;
     }
 }
 
@@ -147,7 +276,6 @@ header {
 
 .product-image {
     width: 100%;
-    /* Jumia / Kilmall style tight aspect ratio */
     aspect-ratio: 1 / 1; 
     height: auto;
     position: relative;
@@ -212,6 +340,7 @@ header {
 .btn-whatsapp:hover {
     background-color: #1eb954;
 }
+
 /* Footer */
 footer {
     background-color: var(--card-bg);
@@ -225,120 +354,4 @@ footer {
 
 footer span {
     color: var(--accent-gold);
-}
-/* Category Filter Bar */
-.category-nav {
-    display: flex;
-    justify-content: center; /* Centers the tabs on wider screens */
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    background: #0A1128;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-    overflow-x: auto; /* Allows smooth horizontal swipe on small mobile screens */
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-}
-
-.category-nav::-webkit-scrollbar {
-    display: none;
-}
-
-.filter-btn {
-    flex-shrink: 0; /* Prevents buttons from shrinking or compressing on narrow screens */
-    padding: 8px 18px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #A0AEC0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.filter-btn.active,
-.filter-btn:hover {
-    background: #D4AF37;
-    color: #0A1128;
-    border-color: #D4AF37;
-}
-/* Header Search Bar Styling with Integrated Search Icon */
-.header-search {
-    flex: 1;
-    max-width: 320px;
-    margin: 0 20px;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.header-search input {
-    width: 100%;
-    padding: 8px 40px 8px 16px; /* Extra right padding so text doesn't slide under the icon */
-    background-color: #121212;
-    border: 1px solid #333;
-    border-radius: 20px;
-    color: var(--text-main);
-    font-size: 13px;
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-.header-search input::placeholder {
-    color: var(--text-muted);
-}
-
-.header-search input:focus {
-    border-color: var(--accent-gold);
-    background-color: #1a1a1a;
-    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
-}
-
-.search-submit-btn {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 4px;
-    transition: color 0.2s ease;
-}
-
-.search-submit-btn:hover {
-    color: var(--accent-gold);
-}
-
-/* Header Action / Icon Button Styling */
-.header-action-btn {
-    background-color: var(--card-bg);
-    color: var(--text-muted);
-    border: 1px solid #333;
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-}
-
-.header-action-btn:hover {
-    color: var(--accent-gold);
-    border-color: var(--accent-gold);
-    background-color: #1a1a1a;
-}
-.header-search, .mobile-search-row .header-search {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 600px; /* Prevents it from stretching too wide on tablets/desktops */
-    margin: 0 auto;   /* Perfect horizontal centering */
 }
