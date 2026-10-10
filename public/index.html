@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gema Boutique | Handbags & Luxury Footwear</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Mobile Search Row Styling (Inherits Desktop Header Styles) */
+        .mobile-search-row {
+            display: none;
+            padding: 8px 15px;
+            background: var(--bg-color, #121212);
+            border-bottom: 1px solid #222;
+        }
+
+        .mobile-search-row .header-search {
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            header .header-search { display: none; } /* Hide desktop search inside header */
+            .mobile-search-row { display: block; }   /* Show full-width mobile search row */
+        }  
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="brand-wrapper">
+            <img src="logo.png" alt="Gema Boutique Logo" class="site-logo">
+            <div class="logo-text-group">
+                <span class="logo-title">Gema Boutique</span>
+                <span class="logo-subtitle">Luxury Handbags & Footwear</span>
+            </div>
+        </div>
+        <!-- Desktop Search -->
+        <form class="header-search" onsubmit="return false;">
+            <input type="text" id="desktopSearchInput" placeholder="Search boutique items..." oninput="syncSearch(this.value)">
+            <button type="button" class="search-submit-btn" aria-label="Search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+        </form>
+        <a href="support.html" class="header-action-btn">💬 Quick Support</a> 
+    </header>
+
+    <!-- Dedicated Mobile Search Row (Uses exact desktop form classes) -->
+    <div class="mobile-search-row">
+        <form class="header-search" onsubmit="return false;">
+            <input type="text" id="mobileSearchInput" placeholder="Search boutique items..." oninput="syncSearch(this.value)">
+            <button type="button" class="search-submit-btn" aria-label="Search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <nav class="category-nav">
+        <button class="filter-btn active" onclick="filterCategory('all', event)">All Items</button>
+        <button class="filter-btn" onclick="filterCategory('ladies-wear', event)">Ladies Wear</button>
+        <button class="filter-btn" onclick="filterCategory('shoes', event)">Shoes</button>
+        <button class="filter-btn" onclick="filterCategory('handbags', event)">Handbags</button>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <h1>Elegance in Every Step</h1>
+        <p>Nationwide Delivery via Ena Coach 📦</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="product-grid" id="productGrid">
+            <!-- Dynamically populated from backend server inventory -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 <span>Gema Boutique</span>. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Discreet Three-Dots Admin Portal Shortcut -->
+    <div style="position: fixed; bottom: 15px; right: 15px; z-index: 9999;">
+        <button onclick="toggleAdminMenu()" style="background: transparent; border: none; font-size: 1.5rem; color: #A0AEC0; cursor: pointer; padding: 5px;" title="Options">⋮</button>
+        <div id="adminDropdown" style="display: none; position: absolute; bottom: 40px; right: 0; background: #0A1128; border: 1px solid #D4AF37; border-radius: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); padding: 5px 0; width: 160px; text-align: left;">
+            <a href="/gema-login" style="display: block; color: #F4E8C1; text-decoration: none; padding: 10px 15px; font-size: 0.85rem; font-family: 'Plus Jakarta Sans', sans-serif;">Admin Dashboard</a>
+        </div>
+    </div>   
+
+    <script>
+        let storeProducts = [];
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        async function fetchStoreProducts() {
+            try {
+                const res = await fetch('/api/products');
+                storeProducts = await res.json();
+                renderProducts();
+            } catch (err) {
+                console.error("Failed to load store inventory:", err);
+            }
+        }
+
+        function syncSearch(val) {
+            searchQuery = val.toLowerCase().trim();
+            // Sync both search inputs so they match
+            document.getElementById('desktopSearchInput').value = val;
+            document.getElementById('mobileSearchInput').value = val;
+            renderProducts();
+        }
+
+        function filterCategory(category, event) {
+            currentCategory = category;
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if(event && event.target) {
+                event.target.classList.add('active');
+            }
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            if(!grid) return;
+
+            grid.innerHTML = '';
+
+            const filtered = storeProducts.filter(p => {
+                const matchesCategory = (currentCategory === 'all' || p.category === currentCategory);
+                const matchesSearch = p.title.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px; font-size: 0.95rem;">No boutique items found.</div>`;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const isAvailable = p.active && p.quantity > 0;
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-category', p.category);
+
+                const whatsappMsg = encodeURIComponent(`Hello Gema Boutique, I want to order the ${p.title} priced at ${p.price}. Is it available?`);
+
+                card.innerHTML = `
+                    <div class="product-image" style="position: relative; overflow: hidden;">
+                        <span class="tag">${p.tag || 'Standard'}</span>
+                        <img src="${p.imageUrl}" alt="${p.title}" style="${!isAvailable ? 'filter: grayscale(100%); opacity: 0.45;' : ''}">
+                        ${!isAvailable ? `
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(10, 17, 40, 0.95); color: #ff453a; padding: 8px 16px; font-weight: 800; font-size: 0.8rem; border-radius: 6px; border: 1px solid #ff453a; letter-spacing: 1.5px; white-space: nowrap; z-index: 2;">
+                                OUT OF STOCK
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${p.title}</div>
+                        <div class="product-price">${p.price}</div>
+                        ${p.spec ? `<div style="font-size: 0.75rem; color: #888; margin-bottom: 8px;">Spec: ${p.spec}</div>` : ''}
+                        ${isAvailable 
+                            ? `<a href="https://wa.me/254700000000?text=${whatsappMsg}" class="btn-whatsapp" target="_blank">Order via WhatsApp</a>`
+                            : `<button disabled style="width: 100%; background: #222; color: #777; padding: 10px; border: 1px solid #333; border-radius: 6px; font-weight: 600; cursor: not-allowed; text-transform: uppercase; font-size: 0.8rem;">Sold Out</button>`
+                        }
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleAdminMenu() {
+            const menu = document.getElementById('adminDropdown');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('button') && !event.target.closest('#adminDropdown')) {
+                const dropdown = document.getElementById('adminDropdown');
+                if(dropdown) dropdown.style.display = 'none';
+            }
+        }
+
+        fetchStoreProducts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --accent-gold: #d4af37;
+    --text-main: #ffffff;
+    --text-muted: #b0b0b0;
+    --whatsapp-green: #25d366;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Header & Logo Area */
+header {
+    background-color: var(--card-bg);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Adds space between the logo and the text */
+}
+
+.site-logo {
+    height: 85px; 
+    width: 85px;
+    object-fit: contain;
+    border-radius: 50%;
+    border:2px solid var(--accent-gold);
+    background-color: var(--card-bg);
+    padding: 4px;
+    box-shadow:0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.logo-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    line-height: 1.1;
+    font-family: 'Cinzel', 'playfair Display', Georgia, serif;
+}
+
+.logo-subtitle {
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.cart-badge {
+    background: var(--accent-gold);
+    color: #000;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 50px 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--accent-gold);
+}
+
+.hero h1 {
+    font-size: 26px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.hero p {
+    font-size: 13px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Main Container & Product Grid */
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.section-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--accent-gold);
+    padding-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px;
+    padding: 15px 0;
+}
+
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+        padding:20px 0;
+    }
+}
+
+.product-card {
+    background-color: var(--card-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #2d2d2d;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-image {
+    width: 100%;
+    /* Jumia / Kilmall style tight aspect ratio */
+    aspect-ratio: 1 / 1; 
+    height: auto;
+    position: relative;
+    background-color: #222;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tag {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: var(--accent-gold);
+    color: #000;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+.product-info {
+    padding: 8px 10px 10px;
+}
+
+.product-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-price {
+    color: var(--accent-gold);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.btn-whatsapp {
+    display: block;
+    width: 100%;
+    background-color: var(--whatsapp-green);
+    color: #fff;
+    text-align: center;
+    padding: 6px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 11px;
+    transition: background 0.2s;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1eb954;
+}
+/* Footer */
+footer {
+    background-color: var(--card-bg);
+    text-align: center;
+    padding: 25px;
+    margin-top: 40px;
+    border-top: 1px solid #333;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+footer span {
+    color: var(--accent-gold);
+}
+/* Category Filter Bar */
+.category-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background-color: #181818;
+    border-bottom: 1px solid #333;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.filter-btn {
+    background-color: var(--card-bg);
+    color: var(--text-muted);
+    border: 1px solid #333;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    color: var(--text-main);
+    border-color: var(--accent-gold);
+}
+
+.filter-btn.active {
+    background-color: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+}
+/* Header Search Bar Styling with Integrated Search Icon */
+.header-search {
+    flex: 1;
+    max-width: 320px;
+    margin: 0 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.header-search input {
+    width: 100%;
+    padding: 8px 40px 8px 16px; /* Extra right padding so text doesn't slide under the icon */
+    background-color: #121212;
+    border: 1px solid #333;
+    border-radius: 20px;
+    color: var(--text-main);
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.header-search input::placeholder {
+    color: var(--text-muted);
+}
+
+.header-search input:focus {
+    border-color: var(--accent-gold);
+    background-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.search-submit-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    transition: color 0.2s ease;
+}
+
+.search-submit-btn:hover {
+    color: var(--accent-gold);
+}
+
+/* Header Action / Icon Button Styling */
+.header-action-btn {
+    background-color: var(--card-bg);
+    color: var(--text-muted);
+    border: 1px solid #333;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.header-action-btn:hover {
+    color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    background-color: #1a1a1a;
+}

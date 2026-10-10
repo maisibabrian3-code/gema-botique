@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gema Boutique | Portal Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0d0d0d;
+            --card-bg: #181818;
+            --accent-gold: #d4af37;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #2e2e2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body { 
+            background: var(--bg-dark); 
+            color: var(--text-main); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            padding: 20px;
+        }
+
+        .login-card { 
+            background: var(--card-bg); 
+            padding: 3rem 2.5rem; 
+            border-radius: 16px; 
+            width: 100%; 
+            max-width: 420px; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8); 
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+        }
+
+        /* Circular Logo Crest using logo.png */
+        .brand-crest {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #121212;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+            overflow: hidden;
+        }
+
+        .brand-crest img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+        }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--accent-gold); 
+            font-size: 1.75rem; 
+            text-align: center; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 0.3rem; 
+        }
+
+        p.subtitle { 
+            text-align: center; 
+            color: var(--text-muted); 
+            font-size: 0.8rem; 
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2.2rem; 
+        }
+
+        .form-group { 
+            margin-bottom: 1.5rem; 
+        }
+
+        label { 
+            display: block; 
+            font-weight: 600; 
+            font-size: 0.8rem; 
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem; 
+        }
+
+        input { 
+            width: 100%; 
+            padding: 0.85rem 1rem; 
+            background: #121212;
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 0.95rem; 
+            color: var(--text-main);
+            outline: none; 
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #555;
+        }
+
+        input:focus { 
+            border-color: var(--accent-gold); 
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            background: #161616;
+        }
+
+        /* Password Wrapper & Toggle Eye Button */
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px; /* Ensures text doesn't run under the eye icon */
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 12px;
+            background: none !important;
+            border: none !important;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            width: auto !important;
+            margin-top: 0 !important;
+            box-shadow: none !important;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle-btn:hover {
+            color: var(--accent-gold) !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        button[type="submit"] { 
+            width: 100%; 
+            background: linear-gradient(135deg, #d4af37, #b89628); 
+            color: #0d0d0d; 
+            border: none; 
+            padding: 0.9rem; 
+            font-weight: 700; 
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 8px; 
+            cursor: pointer; 
+            margin-top: 0.8rem; 
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"]:hover { 
+            background: linear-gradient(135deg, #e5be48, #d4af37); 
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+            transform: translateY(-1px);
+        }
+
+        #errorMsg { 
+            color: #e53e3e; 
+            font-size: 0.85rem; 
+            text-align: center; 
+            margin-top: 1.2rem; 
+            display: none; 
+            background: rgba(229, 62, 62, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(229, 62, 62, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="brand-crest">
+        <img src="/logo.png" alt="Gema Boutique Logo">
+    </div>
+    <h1>Gema Boutique</h1>
+    <p class="subtitle">Authorized Access Only</p>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" required placeholder="Enter password">
+                <button type="button" id="togglePassword" class="password-toggle-btn" aria-label="Toggle password visibility">
+                    <!-- Eye Icon SVG (Default: Eye Open) -->
+                    <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <button type="submit">Sign In to Dashboard</button>
+        <div id="errorMsg"></div>
+    </form>
+</div>
+
+<script>
+    // Password visibility toggle script
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    togglePassword.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+
+        if (isPassword) {
+            // Switch to Eye Closed SVG
+            eyeIcon.innerHTML = `
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+            `;
+        } else {
+            // Switch back to Eye Open SVG
+            eyeIcon.innerHTML = `
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            `;
+        }
+    });
+
+    // Login Form Submission
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            })
+        });
+        const data = await res.json();
+        if (data.success) {
+            window.location.href = '/gema-secure-dashboard-77x';
+        } else {
+            const err = document.getElementById('errorMsg');
+            err.textContent = data.error;
+            err.style.display = 'block';
+        }
+    });
+</script>
+
+</body>
+</html>
