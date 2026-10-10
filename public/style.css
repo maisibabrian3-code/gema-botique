@@ -229,23 +229,25 @@ footer span {
 /* Category Filter Bar */
 .category-nav {
     display: flex;
+    justify-content: center; /* Centers the tabs on wider screens */
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    background-color: #0A1128;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #0A1128;
     border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-    overflow-x: auto;
+    overflow-x: auto; /* Allows smooth horizontal swipe on small mobile screens */
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
 }
+
 .category-nav::-webkit-scrollbar {
     display: none;
 }
 
 .filter-btn {
     flex-shrink: 0; /* Prevents buttons from shrinking or compressing on narrow screens */
-    padding: 8px 16px;
+    padding: 8px 18px;
     font-size: 0.85rem;
     font-weight: 600;
     border-radius: 20px;
@@ -331,4 +333,12 @@ footer span {
     color: var(--accent-gold);
     border-color: var(--accent-gold);
     background-color: #1a1a1a;
+}
+.header-search, .mobile-search-row .header-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Prevents it from stretching too wide on tablets/desktops */
+    margin: 0 auto;   /* Perfect horizontal centering */
 }
