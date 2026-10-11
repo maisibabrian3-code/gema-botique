@@ -366,18 +366,18 @@
                 }
 
                 const itemDiv = document.createElement('div');
-                itemDiv.className = 'inventory-item';
-                itemDiv.innerHTML = `
-                    <div class="item-details">
-                        <h4>${p.title} (${p.price})</h4>
-                        <p>Stock Qty: <b>${p.quantity}</b> | Status: <span style="color: ${isItemActive ? '#30d158' : '#ff453a'}; font-weight: 600;">${isItemActive ? 'Active' : 'Out of Stock'}</span></p>
-                    </div>
-                    <div class="item-actions">
-                        <button class="btn-action btn-toggle ${!isItemActive ? 'out' : ''}" onclick="toggleStatus('${p.id}', ${p.active})">${p.active ? 'Mark Out' : 'Activate'}</button>
-                        <button class="btn-action btn-delete" onclick="deleteProduct('${p.id}')">Delete</button>
-                    </div>
-                `;
-                listContainer.appendChild(itemDiv);
+itemDiv.className = 'inventory-item';
+itemDiv.innerHTML = `
+    <div class="item-details">
+        <h4>${p.title} (${p.price})</h4>
+        <p>Stock Qty: <b>${p.quantity}</b> | Status: <span style="color: ${isItemActive ? '#30d158' : '#ff453a'}; font-weight: 600;">${isItemActive ? 'Active' : 'Out of Stock'}</span></p>
+    </div>
+    <div class="item-actions">
+        <button class="btn-action btn-toggle ${!isItemActive ? 'out' : ''}" onclick="toggleStatus('${p._id}', ${p.active})">${p.active ? 'Mark Out' : 'Activate'}</button>
+        <button class="btn-action btn-delete" onclick="deleteProduct('${p._id}')">Delete</button>
+    </div>
+`;
+listContainer.appendChild(itemDiv);
             });
 
             document.getElementById('totalStockCount').textContent = totalUnits;
