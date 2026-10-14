@@ -154,6 +154,7 @@
                 card.className = 'product-card';
                 card.setAttribute('data-category', p.category);
 
+                // Updated WhatsApp link to 0710787346 with pre-filled product details
                 const whatsappMsg = encodeURIComponent(`Hello Gema Boutique, I want to order the ${p.title} priced at ${p.price}. Is it available?`);
 
                 card.innerHTML = `
@@ -171,7 +172,7 @@
                         <div class="product-price">${p.price}</div>
                         ${p.spec ? `<div style="font-size: 0.75rem; color: #888; margin-bottom: 8px;">Spec: ${p.spec}</div>` : ''}
                         ${isAvailable 
-                            ? `<a href="https://wa.me/254700000000?text=${whatsappMsg}" class="btn-whatsapp" target="_blank">Order via WhatsApp</a>`
+                            ? `<a href="https://wa.me/254710787346?text=${whatsappMsg}" class="btn-whatsapp" target="_blank">Order via WhatsApp</a>`
                             : `<button disabled style="width: 100%; background: #222; color: #777; padding: 10px; border: 1px solid #333; border-radius: 6px; font-weight: 600; cursor: not-allowed; text-transform: uppercase; font-size: 0.8rem;">Sold Out</button>`
                         }
                     </div>
